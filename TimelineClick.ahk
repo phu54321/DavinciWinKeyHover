@@ -2,7 +2,12 @@
 #SingleInstance, force
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 
-lastWinPressTime = 0
+FileCreateDir, %A_Temp%\wtc_images
+FileInstall, images\EditPageTimelineSettings.png, %A_Temp%\wtc_images\EditPageTimelineSettings.png, true
+FileInstall, images\FairlightClock.png, %A_Temp%\wtc_images\FairlightClock.png, true
+FileInstall, images\CutPageSplitClip.png, %A_Temp%\wtc_images\CutPageSplitClip.png, true
+
+lastWinPressTime = -9999999
 ;Example for Davinci Resolve
 #IfWinActive ahk_exe Resolve.exe
 {
@@ -12,7 +17,7 @@ LWin::
 		return
 	}
 	lastWinPressTime := A_TickCount
-	timelineClick([A_ScriptDir . "\Resolve\ImageSearch\EditPageTimelineSettings.png", A_ScriptDir . "\Resolve\ImageSearch\FairlightClock.png",  A_ScriptDir . "\Resolve\ImageSearch\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
+	timelineClick([A_Temp . "\wtc_images\EditPageTimelineSettings.png", A_Temp . "\wtc_images\FairlightClock.png",  A_Temp . "\wtc_images\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
 	return
 }
 
@@ -38,7 +43,9 @@ timelineClick(images,imageSizes, yOffsets)
 		searchImage := images[s_lastImage]
 		Imagesearch, , , s_TagX, s_TagY, (s_TagX+imageSizes[s_lastImage][1]), (s_TagY+imageSizes[s_lastImage][2]), %searchImage%		
 		if ErrorLevel > 0
+			{
 			throw
+			}
 	}
 	catch e 
 	{
@@ -48,7 +55,9 @@ timelineClick(images,imageSizes, yOffsets)
 			searchImage := images[image]
 			ImageSearch, s_TagX, s_TagY, 0, 15, %A_ScreenWidth%, %A_ScreenHeight%, %searchImage%
 			if ErrorLevel > 0
+				{
 				continue
+				}
 			else
 				{
 				;Success
