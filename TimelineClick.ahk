@@ -1,25 +1,15 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#SingleInstance, force
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 
 ;Example for Davinci Resolve
 #IfWinActive ahk_exe Resolve.exe
 {
-k::
-timelineClick([A_ScriptDir . "\Resolve\ImageSearch\EditPageTimelineSettings.png", A_ScriptDir . "\Resolve\ImageSearch\FairlightClock.png",  A_ScriptDir . "\Resolve\ImageSearch\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
-Return
-}
-
-;Example for FL Studio
-#IfWinActive ahk_exe FL64.exe
-{
-k::
-timeLineClick([A_ScriptDir . "\FL Studio\ImageSearch\LeftScroll.png"], [[19,19]], [30])
-Return
+LWin::timelineClick([A_ScriptDir . "\Resolve\ImageSearch\EditPageTimelineSettings.png", A_ScriptDir . "\Resolve\ImageSearch\FairlightClock.png",  A_ScriptDir . "\Resolve\ImageSearch\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
 }
 
 
-
-timelineClick(images,imageSizes, yOffsets, hold=True)
+timelineClick(images,imageSizes, yOffsets)
 {	
 	static s_lastImage, s_TagX, s_TagY	
 	;convert single properties to array just for funsies
@@ -33,6 +23,7 @@ timelineClick(images,imageSizes, yOffsets, hold=True)
 	
 	BlockInput, MouseMove
 	MouseGetPos, MouseX, MouseY 
+	prevMouseY := MouseY
 	;Check for image in last position	
 	Try
 	{
@@ -64,10 +55,16 @@ timelineClick(images,imageSizes, yOffsets, hold=True)
 			}
 	}
 	MouseClick, Left, MouseX, s_TagY + yOffsets[s_lastImage], ,0, D
-	MouseMove, MouseX, MouseY, 0
 	BlockInput, MouseMoveOff
-	if (hold == True)
-		keywait, %A_ThisHotkey%
+	while (true) {
+		Sleep, 50
+		GetKeyState, keystate, LWin, P
+		if keystate = U
+		   break
+	}
 	Click, up
-Return
+	MouseGetPos, newMouseX, newMouseY 
+	MouseMove, newMouseX, MouseY, 0
+	Sleep, 10
+	Return
 }
