@@ -2,10 +2,18 @@
 #SingleInstance, force
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 
+lastWinPressTime = 0
 ;Example for Davinci Resolve
 #IfWinActive ahk_exe Resolve.exe
 {
-LWin::timelineClick([A_ScriptDir . "\Resolve\ImageSearch\EditPageTimelineSettings.png", A_ScriptDir . "\Resolve\ImageSearch\FairlightClock.png",  A_ScriptDir . "\Resolve\ImageSearch\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
+LWin::
+	if (A_TickCount < lastWinPressTime + 200) {
+		Send {LWin}
+		return
+	}
+	lastWinPressTime := A_TickCount
+	timelineClick([A_ScriptDir . "\Resolve\ImageSearch\EditPageTimelineSettings.png", A_ScriptDir . "\Resolve\ImageSearch\FairlightClock.png",  A_ScriptDir . "\Resolve\ImageSearch\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
+	return
 }
 
 
@@ -57,7 +65,7 @@ timelineClick(images,imageSizes, yOffsets)
 	MouseClick, Left, MouseX, s_TagY + yOffsets[s_lastImage], ,0, D
 	BlockInput, MouseMoveOff
 	while (true) {
-		Sleep, 50
+		Sleep, 10
 		GetKeyState, keystate, LWin, P
 		if keystate = U
 		   break
