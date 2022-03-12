@@ -1,6 +1,7 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance, force
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetMouseDelay, 0
 
 FileCreateDir, %A_Temp%\wtc_images
 FileInstall, images\EditPageTimelineSettings.png, %A_Temp%\wtc_images\EditPageTimelineSettings.png, true
@@ -72,6 +73,7 @@ timelineClick(images,imageSizes, yOffsets)
 			}
 	}
 	MouseClick, Left, MouseX, s_TagY + yOffsets[s_lastImage], ,0, D
+	MouseMove, MouseX, MouseY, 0
 	BlockInput, MouseMoveOff
 	while (true) {
 		Sleep, 10
@@ -80,8 +82,7 @@ timelineClick(images,imageSizes, yOffsets)
 		   break
 	}
 	Click, up
-	MouseGetPos, newMouseX, newMouseY 
-	MouseMove, newMouseX, MouseY, 0
-	Sleep, 10
+	; MouseGetPos, newMouseX, newMouseY 
+	; MouseClick, Left, newMouseX, newMouseY, , 0, D
 	Return
 }
