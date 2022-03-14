@@ -7,6 +7,7 @@ FileCreateDir, %A_Temp%\wtc_images
 FileInstall, images\EditPageTimelineSettings.png, %A_Temp%\wtc_images\EditPageTimelineSettings.png, true
 FileInstall, images\FairlightClock.png, %A_Temp%\wtc_images\FairlightClock.png, true
 FileInstall, images\CutPageSplitClip.png, %A_Temp%\wtc_images\CutPageSplitClip.png, true
+FileInstall, images\TimelineTabs.png, %A_Temp%\wtc_images\TimelineTabs.png, true
 
 lastWinPressTime = -9999999
 ;Example for Davinci Resolve
@@ -18,7 +19,7 @@ LWin::
 		return
 	}
 	lastWinPressTime := A_TickCount
-	timelineClick([A_Temp . "\wtc_images\EditPageTimelineSettings.png", A_Temp . "\wtc_images\FairlightClock.png",  A_Temp . "\wtc_images\CutPageSplitClip.png"], [[27,17],[14,15],[17,25]], [45,30,45])
+	timelineClick([A_Temp . "\wtc_images\TimelineTabs.png", A_Temp . "\wtc_images\EditPageTimelineSettings.png", A_Temp . "\wtc_images\FairlightClock.png",  A_Temp . "\wtc_images\CutPageSplitClip.png"], [[30,26],[27,17],[14,15],[17,25]], [50,45,30,45])
 	return
 }
 
@@ -26,7 +27,7 @@ LWin::
 timelineClick(images,imageSizes, yOffsets)
 {	
 	static s_lastImage, s_TagX, s_TagY	
-	;convert single properties to array just for funsies
+	;convert single properties to array just for fuzziness
 	If !IsObject(images)
 		images := [images]
 	If !IsObject(imageSizes[1])
