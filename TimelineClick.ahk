@@ -6,7 +6,6 @@ SetMouseDelay, 0
 FileCreateDir, %A_Temp%\wtc_images
 FileInstall, images\EditPageTimelineSettings.png, %A_Temp%\wtc_images\EditPageTimelineSettings.png, true
 FileInstall, images\FairlightClock.png, %A_Temp%\wtc_images\FairlightClock.png, true
-FileInstall, images\CutPageSplitClip.png, %A_Temp%\wtc_images\CutPageSplitClip.png, true
 FileInstall, images\TimelineTabs.png, %A_Temp%\wtc_images\TimelineTabs.png, true
 
 lastWinPressTime = -9999999
@@ -19,14 +18,14 @@ LWin::
 		return
 	}
 	lastWinPressTime := A_TickCount
-	timelineClick([A_Temp . "\wtc_images\TimelineTabs.png", A_Temp . "\wtc_images\EditPageTimelineSettings.png", A_Temp . "\wtc_images\FairlightClock.png",  A_Temp . "\wtc_images\CutPageSplitClip.png"], [[30,26],[27,17],[14,15],[17,25]], [50,45,30,45])
+	timelineClick([A_Temp . "\wtc_images\TimelineTabs.png", A_Temp . "\wtc_images\EditPageTimelineSettings.png", A_Temp . "\wtc_images\FairlightClock.png"], [[30,26],[27,17],[14,15]], [50,45,30])
 	return
 }
 
 
 timelineClick(images,imageSizes, yOffsets)
-{	
-	static s_lastImage, s_TagX, s_TagY	
+{
+	static s_lastImage, s_TagX, s_TagY
 	;convert single properties to array just for fuzziness
 	If !IsObject(images)
 		images := [images]
@@ -34,24 +33,24 @@ timelineClick(images,imageSizes, yOffsets)
 		imageSizes := [imageSizes]
 	If !IsObject(yOffsets)
 		yOffsets := [yOffsets]
-		
-	
+
+
 	BlockInput, MouseMove
-	MouseGetPos, MouseX, MouseY 
+	MouseGetPos, MouseX, MouseY
 	prevMouseY := MouseY
-	;Check for image in last position	
+	;Check for image in last position
 	Try
 	{
 		searchImage := images[s_lastImage]
-		Imagesearch, , , s_TagX, s_TagY, (s_TagX+imageSizes[s_lastImage][1]), (s_TagY+imageSizes[s_lastImage][2]), %searchImage%		
+		Imagesearch, , , s_TagX, s_TagY, (s_TagX+imageSizes[s_lastImage][1]), (s_TagY+imageSizes[s_lastImage][2]), %searchImage%
 		if ErrorLevel > 0
 			{
 			throw
 			}
 	}
-	catch e 
+	catch e
 	{
-		;look everywhere for all the images        
+		;look everywhere for all the images
 		for image in images
 			{
 			searchImage := images[image]
@@ -83,7 +82,7 @@ timelineClick(images,imageSizes, yOffsets)
 		   break
 	}
 	Click, up
-	; MouseGetPos, newMouseX, newMouseY 
+	; MouseGetPos, newMouseX, newMouseY
 	; MouseClick, Left, newMouseX, newMouseY, , 0, D
 	Return
 }
