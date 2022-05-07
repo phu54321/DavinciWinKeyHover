@@ -30,6 +30,7 @@ LWin::
 		, A_Temp . "\wtc_images\EditPageTimelineSettings.png"
 		, A_Temp . "\wtc_images\FairlightClock.png"]
 		, [[30,26],[27,17],[14,15]], [50,45,30])
+	return
 
 ; Zoom X
 F1::
@@ -114,6 +115,7 @@ timelineClick(images,imageSizes, yOffsets)
 		If ErrorLevel > 0
 		{
 			msgbox, Couldn't find reference image.
+			BlockInput, MouseMoveOff
 			Return
 		}
 	}
@@ -153,6 +155,7 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 	If !IsObject(images)
 		images := [images]
 
+	BlockInput, MouseMove
 	MouseGetPos, MouseX, MouseY
 	prevMouseX := MouseX
 	prevMouseY := MouseY
@@ -186,6 +189,7 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 		if ErrorLevel > 0 
 		{
 			msgbox, Couldn't find reference image.
+			BlockInput, MouseMoveOff
 			Return
 		}
 
@@ -194,7 +198,7 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 	}
 
 	MouseClick, Left, s_TagX + sliderFieldOffset[1], s_TagY + sliderFieldOffset[2], , 0, D
-	MouseMove, prevMouseX, prevMouseY
+	BlockInput, MouseMoveOff
 	while (true) 
 	{
 		Sleep, 10
@@ -203,5 +207,7 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 		   break
 	}
 	Click, up
+	Sleep, 50
+	MouseMove, prevMouseX, prevMouseY
 	Return
 }
