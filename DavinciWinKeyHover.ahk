@@ -1,4 +1,4 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance, force
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
@@ -188,7 +188,7 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 		}
 		if ErrorLevel > 0 
 		{
-			msgbox, Couldn't find reference image.
+			; msgbox, Couldn't find reference image.
 			BlockInput, MouseMoveOff
 			Return
 		}
