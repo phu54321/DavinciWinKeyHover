@@ -1,13 +1,13 @@
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance, force
 
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetMouseDelay, 0
 
 FileCreateDir, %A_Temp%\wtc_images
-FileInstall, images\EditPageTimelineSettings.png, %A_Temp%\wtc_images\EditPageTimelineSettings.png, true
-FileInstall, images\FairlightClock.png, %A_Temp%\wtc_images\FairlightClock.png, true
-FileInstall, images\TimelineTabs.png, %A_Temp%\wtc_images\TimelineTabs.png, true
+FileInstall, images\timeline_edit_marker.png, %A_Temp%\wtc_images\timeline_edit_marker.png, true
+FileInstall, images\timeline_fairlight_marker.png, %A_Temp%\wtc_images\timeline_fairlight_marker.png, true
+FileInstall, images\timeline_edit_tabs_marker.png, %A_Temp%\wtc_images\timeline_edit_tabs_marker.png, true
 
 FileInstall, images\zoom_inactive.png, %A_Temp%\wtc_images\zoom_inactive.png, true
 FileInstall, images\zoom_active.png, %A_Temp%\wtc_images\zoom_active.png, true
@@ -26,9 +26,9 @@ LWin::
 		return
 	}
 	lastWinPressTime := A_TickCount
-	timelineClick([A_Temp . "\wtc_images\TimelineTabs.png"
-		, A_Temp . "\wtc_images\EditPageTimelineSettings.png"
-		, A_Temp . "\wtc_images\FairlightClock.png"]
+	timelineClick([A_Temp . "\wtc_images\timeline_edit_tabs_marker.png"
+		, A_Temp . "\wtc_images\timeline_edit_marker.png"
+		, A_Temp . "\wtc_images\timeline_fairlight_marker.png"]
 		, [[30,26],[27,17],[14,15]], [50,45,30])
 	return
 
@@ -171,22 +171,22 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 	}
 	catch e
 		{
-		for image in images 
+		for image in images
 		{
 			searchImage := images[image]
 			ImageSearch, s_TagX, s_TagY, 0, 15, %A_ScreenWidth%, %A_ScreenHeight%, %searchImage%
-			if ErrorLevel > 0 
+			if ErrorLevel > 0
 			{
 				continue
 			}
-			else 
+			else
 			{
 				;Success
 				s_lastImage := image
 				break
 			}
 		}
-		if ErrorLevel > 0 
+		if ErrorLevel > 0
 		{
 			; msgbox, Couldn't find reference image.
 			BlockInput, MouseMoveOff
@@ -199,7 +199,7 @@ sliderClick(Key, images, imageSize, sliderFieldOffset)
 
 	MouseClick, Left, s_TagX + sliderFieldOffset[1], s_TagY + sliderFieldOffset[2], , 0, D
 	BlockInput, MouseMoveOff
-	while (true) 
+	while (true)
 	{
 		Sleep, 10
 		GetKeyState, keystate, %Key%, P
