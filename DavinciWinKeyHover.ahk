@@ -114,7 +114,7 @@ timelineClick(images,imageSizes, yOffsets)
 		}
 		If ErrorLevel > 0
 		{
-			msgbox, Couldn't find reference image.
+			; msgbox, Couldn't find reference image.
 			BlockInput, MouseMoveOff
 			Return
 		}
