@@ -5,9 +5,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetMouseDelay, 0
 
 FileCreateDir, %A_Temp%\wtc_images
-FileInstall, images\timeline_edit_marker.png, %A_Temp%\wtc_images\timeline_edit_marker.png, true
-FileInstall, images\timeline_fairlight_marker.png, %A_Temp%\wtc_images\timeline_fairlight_marker.png, true
-FileInstall, images\timeline_edit_tabs_marker.png, %A_Temp%\wtc_images\timeline_edit_tabs_marker.png, true
+FileInstall, images\timeline_ruler.png, %A_Temp%\wtc_images\timeline_ruler.png, true
 
 FileInstall, images\zoom_inactive.png, %A_Temp%\wtc_images\zoom_inactive.png, true
 FileInstall, images\zoom_active.png, %A_Temp%\wtc_images\zoom_active.png, true
@@ -26,10 +24,7 @@ LWin::
 		return
 	}
 	lastWinPressTime := A_TickCount
-	timelineClick([A_Temp . "\wtc_images\timeline_edit_tabs_marker.png"
-		, A_Temp . "\wtc_images\timeline_edit_marker.png"
-		, A_Temp . "\wtc_images\timeline_fairlight_marker.png"]
-		, [[30,26],[27,17],[14,15]], [50,45,30])
+	timelineClick(A_Temp . "\wtc_images\timeline_ruler.png", [39, 10])
 	return
 
 ; Zoom X
@@ -68,16 +63,9 @@ F4::
 
 ; -------------------------------------
 
-timelineClick(images,imageSizes, yOffsets)
+timelineClick(rulerImage, imageSize)
 {
-	static s_lastImage, s_TagX, s_TagY
-	;convert single properties to array just for fuzziness
-	If !IsObject(images)
-		images := [images]
-	If !IsObject(imageSizes[1])
-		imageSizes := [imageSizes]
-	If !IsObject(yOffsets)
-		yOffsets := [yOffsets]
+	static s_TagX, s_TagY
 
 
 	BlockInput, MouseMove
@@ -87,8 +75,7 @@ timelineClick(images,imageSizes, yOffsets)
 	;Check for image in last position
 	Try
 	{
-		searchImage := images[s_lastImage]
-		Imagesearch, , , s_TagX, s_TagY, (s_TagX+imageSizes[s_lastImage][1]), (s_TagY+imageSizes[s_lastImage][2]), %searchImage%
+		Imagesearch, , , s_TagX, s_TagY, (s_TagX + imageSize[1] + 10), (s_TagY + imageSize[2]), %rulerImage%
 		if ErrorLevel > 0
 			{
 			throw
@@ -97,22 +84,8 @@ timelineClick(images,imageSizes, yOffsets)
 	catch e
 	{
 		;look everywhere for all the images
-		for image in images
-		{
-			searchImage := images[image]
-			ImageSearch, s_TagX, s_TagY, A_ScreenWidth - 500, 15, A_ScreenWidth, A_ScreenHeight, %searchImage%
-			if ErrorLevel > 0
-				{
-				continue
-				}
-			else
-				{
-				;Success
-				s_lastImage := image
-				break
-				}
-		}
-		If ErrorLevel > 0
+		ImageSearch, s_TagX, s_TagY, 0, 0, A_ScreenWidth, A_ScreenHeight, %rulerImage%
+		if ErrorLevel > 0
 		{
 			; msgbox, Couldn't find reference image.
 			BlockInput, MouseMoveOff
@@ -120,7 +93,7 @@ timelineClick(images,imageSizes, yOffsets)
 		}
 	}
 
-	MouseClick, Left, MouseX, s_TagY + yOffsets[s_lastImage], ,0, D
+	MouseClick, Left, MouseX, s_TagY, ,0, D
 	MouseMove, MouseX, MouseY, 0
 	BlockInput, MouseMoveOff
 	while (true) {
