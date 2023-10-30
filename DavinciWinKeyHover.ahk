@@ -1,4 +1,4 @@
-#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance, force
 
 SendMode Input ; Recommended for new scripts due to its superior speed and reliability.
@@ -26,10 +26,10 @@ lastWinPressTime = -9999999
 			return
 		}
 		lastWinPressTime := A_TickCount
-		timelineClick([A_Temp . "\wtc_images\timeline_edit_tabs_marker.png"
-			, A_Temp . "\wtc_images\timeline_edit_marker.png"
-			, A_Temp . "\wtc_images\timeline_fairlight_marker.png"]
-			, [[27,27],[27,17],[14,15]], [50,45,30])
+		timelineClick([A_Temp . "\wtc_images\timeline_fairlight_marker.png"
+			, A_Temp . "\wtc_images\timeline_edit_tabs_marker.png"
+			, A_Temp . "\wtc_images\timeline_edit_marker.png"]
+			, [[51,29],[27,27],[27,17]], [50,50,40])
 	return
 
 	; Zoom X
