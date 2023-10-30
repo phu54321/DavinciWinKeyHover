@@ -1,9 +1,9 @@
-﻿#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases.
+#NoEnv ; Recommended for performance and compatibility with future AutoHotkey releases.
 #SingleInstance, force
 
 SendMode Input ; Recommended for new scripts due to its superior speed and reliability.
 SetMouseDelay, 0
-CoordMode, Pixel
+CoordMode, Mouse, Pixel
 
 FileCreateDir, %A_Temp%\wtc_images
 FileInstall, images\timeline_edit_marker.png, %A_Temp%\wtc_images\timeline_edit_marker.png, true
